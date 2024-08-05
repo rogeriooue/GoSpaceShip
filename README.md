@@ -1,3 +1,3 @@
 # GoSpaceShip
 
-Game 2D in Go Lang
+2D Game in Go Lang
