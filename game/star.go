@@ -42,5 +42,3 @@ func (s *Star) Draw(screen *ebiten.Image) {
 	// Draw the image on the screen
 	screen.DrawImage(s.image, op)
 }
-
-
