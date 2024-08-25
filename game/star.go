@@ -15,7 +15,7 @@ type Star struct {
 func NewStar() *Star {
 	image := assets.StarsSprites[rand.Intn(len(assets.StarsSprites))]
 
-	speed := (rand.Float64() * 6)
+	speed := rand.Float64() * 6
 
 	position := Vector{
 		X: rand.Float64() * screenWidth,

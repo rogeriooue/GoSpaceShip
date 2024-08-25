@@ -15,7 +15,7 @@ type Meteor struct {
 func NewMeteor() *Meteor {
 	image := assets.MeteorSprites[rand.Intn(len(assets.MeteorSprites))]
 
-	speed := (rand.Float64() * 13)
+	speed := rand.Float64() * 13
 
 	position := Vector{
 		X: rand.Float64() * screenWidth,

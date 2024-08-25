@@ -29,7 +29,7 @@ func NewGame() *Game {
 	return g
 }
 
-// 60 frames per second
+// Update 60 frames per second
 // 1 Tick = 1 x seconds
 // Responsible for initializing the game
 func (g *Game) Update() error {
@@ -83,7 +83,7 @@ func (g *Game) Update() error {
 	return nil
 }
 
-// 60 frames per second
+// Draw 60 frames per second
 // Responsible for drawing the game on the screen
 func (g *Game) Draw(screen *ebiten.Image) {
 	g.player.Draw(screen)
@@ -103,7 +103,7 @@ func (g *Game) Draw(screen *ebiten.Image) {
 	text.Draw(screen, fmt.Sprintf("Score: %d", g.score), assets.FontUi, 20, 50, color.White)
 }
 
-// Responsible for setting the screen size
+// Layout Responsible for setting the screen size
 func (g *Game) Layout(outsideWidth, outsideHeight int) (int, int) {
 	return screenWidth, screenHeight
 }
