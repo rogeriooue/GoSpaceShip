@@ -1,8 +1,9 @@
 package main
 
 import (
-	"github.com/hajimehoshi/ebiten/v2"
 	"gospaceship/game"
+
+	"github.com/hajimehoshi/ebiten/v2"
 )
 
 func main() {

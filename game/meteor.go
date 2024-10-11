@@ -1,9 +1,10 @@
 package game
 
 import (
-	"github.com/hajimehoshi/ebiten/v2"
 	"gospaceship/assets"
 	"math/rand"
+
+	"github.com/hajimehoshi/ebiten/v2"
 )
 
 type Meteor struct {

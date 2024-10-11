@@ -2,10 +2,12 @@ package game
 
 import (
 	"fmt"
-	"github.com/hajimehoshi/ebiten/v2"
-	"github.com/hajimehoshi/ebiten/v2/text"
 	"gospaceship/assets"
 	"image/color"
+	"time"
+
+	"github.com/hajimehoshi/ebiten/v2"
+	"github.com/hajimehoshi/ebiten/v2/text"
 )
 
 type Game struct {
@@ -16,6 +18,9 @@ type Game struct {
 	meteorsSpawnTimer *Timer
 	starsSpawnTimer   *Timer
 	score             int
+	gameOver          bool
+	canReset          bool
+	gameOverTimer     time.Time
 }
 
 func NewGame() *Game {
@@ -33,6 +38,16 @@ func NewGame() *Game {
 // 1 Tick = 1 x seconds
 // Responsible for initializing the game
 func (g *Game) Update() error {
+	if g.gameOver {
+		if time.Since(g.gameOverTimer) > 1*time.Second {
+			g.canReset = true
+		}
+		if g.canReset && ebiten.IsKeyPressed(ebiten.KeySpace) {
+			g.Reset()
+		}
+		return nil
+	}
+
 	g.player.Update()
 
 	for _, l := range g.lasers {
@@ -54,7 +69,9 @@ func (g *Game) Update() error {
 	for _, m := range g.meteors {
 		if m.Collider().Intersects(g.player.Collider()) {
 			fmt.Println("Game Over")
-			g.Reset()
+			g.gameOver = true
+			g.canReset = false
+			g.gameOverTimer = time.Now()
 		}
 	}
 
@@ -63,7 +80,7 @@ func (g *Game) Update() error {
 			if m.Collider().Intersects(l.Collider()) {
 				g.meteors = append(g.meteors[:i], g.meteors[i+1:]...)
 				g.lasers = append(g.lasers[:j], g.lasers[j+1:]...)
-				g.score += 1
+				g.score += 10
 			}
 		}
 	}
@@ -86,6 +103,11 @@ func (g *Game) Update() error {
 // Draw 60 frames per second
 // Responsible for drawing the game on the screen
 func (g *Game) Draw(screen *ebiten.Image) {
+	if g.gameOver {
+		text.Draw(screen, "Game Over", assets.FontUi, 270, 300, color.White)
+		return
+	}
+
 	g.player.Draw(screen)
 
 	for _, l := range g.lasers {
@@ -119,4 +141,5 @@ func (g *Game) Reset() {
 	g.stars = nil
 	g.meteorsSpawnTimer.Reset()
 	g.score = 0
+	g.gameOver = false
 }
