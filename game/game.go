@@ -104,7 +104,9 @@ func (g *Game) Update() error {
 // Responsible for drawing the game on the screen
 func (g *Game) Draw(screen *ebiten.Image) {
 	if g.gameOver {
-		text.Draw(screen, "Game Over", assets.FontUi, 270, 300, color.White)
+		text.Draw(screen, fmt.Sprintf("Score: %d", g.score), assets.FontUi, 20, 50, color.White)
+		text.Draw(screen, fmt.Sprintf("Game Over"), assets.FontUi, 270, 300, color.White)
+		text.Draw(screen, fmt.Sprintf("Press Space to Restart"), assets.FontUi, 80, 400, color.White)
 		return
 	}
 
