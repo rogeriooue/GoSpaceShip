@@ -42,7 +42,7 @@ func (g *Game) Update() error {
 		if time.Since(g.gameOverTimer) > 1*time.Second {
 			g.canReset = true
 		}
-		if g.canReset && ebiten.IsKeyPressed(ebiten.KeySpace) {
+		if g.canReset && ebiten.IsKeyPressed(ebiten.KeyEnter) {
 			g.Reset()
 		}
 		return nil
@@ -106,7 +106,7 @@ func (g *Game) Draw(screen *ebiten.Image) {
 	if g.gameOver {
 		text.Draw(screen, fmt.Sprintf("Score: %d", g.score), assets.FontUi, 20, 50, color.White)
 		text.Draw(screen, fmt.Sprintf("Game Over"), assets.FontUi, 270, 300, color.White)
-		text.Draw(screen, fmt.Sprintf("Press Space to Restart"), assets.FontUi, 80, 400, color.White)
+		text.Draw(screen, fmt.Sprintf("Press ENTER to Restart"), assets.FontUi, 80, 400, color.White)
 		return
 	}
 
