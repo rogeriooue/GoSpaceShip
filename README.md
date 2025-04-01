@@ -44,4 +44,4 @@
 
 4. **Game Over**:
    - O jogo termina quando a nave colide com um meteoro.
-   - Após 2 segundos, pressione a barra de espaço para reiniciar o jogo.
+   - Pressione a tecla ENTER para reiniciar o jogo.

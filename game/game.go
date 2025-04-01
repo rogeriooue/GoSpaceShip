@@ -4,7 +4,6 @@ import (
 	"fmt"
 	"gospaceship/assets"
 	"image/color"
-	"time"
 
 	"github.com/hajimehoshi/ebiten/v2"
 	"github.com/hajimehoshi/ebiten/v2/text"
@@ -20,7 +19,6 @@ type Game struct {
 	score             int
 	gameOver          bool
 	canReset          bool
-	gameOverTimer     time.Time
 }
 
 func NewGame() *Game {
@@ -39,10 +37,7 @@ func NewGame() *Game {
 // Responsible for initializing the game
 func (g *Game) Update() error {
 	if g.gameOver {
-		if time.Since(g.gameOverTimer) > 1*time.Second {
-			g.canReset = true
-		}
-		if g.canReset && ebiten.IsKeyPressed(ebiten.KeyEnter) {
+		if ebiten.IsKeyPressed(ebiten.KeyEnter) {
 			g.Reset()
 		}
 		return nil
@@ -71,16 +66,18 @@ func (g *Game) Update() error {
 			fmt.Println("Game Over")
 			g.gameOver = true
 			g.canReset = false
-			g.gameOverTimer = time.Now()
 		}
 	}
 
-	for i, m := range g.meteors {
-		for j, l := range g.lasers {
+	for i := len(g.meteors) - 1; i >= 0; i-- {
+		m := g.meteors[i]
+		for j := len(g.lasers) - 1; j >= 0; j-- {
+			l := g.lasers[j]
 			if m.Collider().Intersects(l.Collider()) {
 				g.meteors = append(g.meteors[:i], g.meteors[i+1:]...)
 				g.lasers = append(g.lasers[:j], g.lasers[j+1:]...)
 				g.score += 10
+				break
 			}
 		}
 	}
@@ -105,8 +102,8 @@ func (g *Game) Update() error {
 func (g *Game) Draw(screen *ebiten.Image) {
 	if g.gameOver {
 		text.Draw(screen, fmt.Sprintf("Score: %d", g.score), assets.FontUi, 20, 50, color.White)
-		text.Draw(screen, fmt.Sprintf("Game Over"), assets.FontUi, 270, 300, color.White)
-		text.Draw(screen, fmt.Sprintf("Press ENTER to Restart"), assets.FontUi, 80, 400, color.White)
+		text.Draw(screen, "Game Over", assets.FontUi, 270, 300, color.White)
+		text.Draw(screen, "Press ENTER to Restart", assets.FontUi, 80, 400, color.White)
 		return
 	}
 
